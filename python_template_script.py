@@ -13,6 +13,32 @@ logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.INFO)
 
 
+
+def write_dictionary_to_json_file(filename, dict_data):
+    """
+    Write a dictionary to a json file.
+    :param filename: file path to be written.
+    :param dict_data: data to be written.
+    :return:
+    """
+    with open(filename, 'w', encoding='utf8') as fp:
+        json.dump(dict_data, fp)
+    logging.info(f'{filename} has been written to file.')
+
+
+def load_json_file_to_dict(filename):
+    """
+    Read a json file into a dictionary data-structure.
+    :param filename: file path of the file to read.
+    :return: dictionary object containing the data
+    """
+    assert os.path.isfile(filename), f'{filename} is not a file.'
+    with open(filename, encoding='utf8') as fp:
+        data = json.load(fp)
+    logging.info(f'{filename} has been read in as data.')
+    return data
+
+
 def write_output(data, field_names, file_output_path):
     """
     Write data to csv file.
