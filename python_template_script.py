@@ -8,9 +8,14 @@ import functools
 import configparser
 
 
-logging.basicConfig()
+logging_format = "Module: %(name)s\tFilename: %(filename)s:%(lineno)d\tFunction: %(funcName)s" \
+                 "\n\t%(levelname)s: %(message)s"
+logging.basicConfig(format=logging_format)  # 標準出力のフォーマットは、loggingで設定
 logger = logging.getLogger(__name__)
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
+file_sh = logging.FileHandler('./debug.log')  # ログファイルに出力するHandlerの設定
+file_sh.setFormatter(logging.Formatter(logging_format))
+logger.addHandler(file_sh)
 
 
 
