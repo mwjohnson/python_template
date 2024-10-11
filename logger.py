@@ -75,6 +75,7 @@ class LevelBasedFormatterV1(logging.Formatter):
         return formatter.format(record)
 
 def main():
+    logger = setup_custom_logger(__name__, False)
     logger.info(__name__ + " started.")
     # input_file = './japan-ai-incident/2024-05-30.json'
     # process_log(input_file)
@@ -91,5 +92,4 @@ def main():
 
 
 if __name__ == '__main__':
-    logger = setup_custom_logger(__name__, False)
     main()

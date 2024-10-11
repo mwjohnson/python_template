@@ -6,6 +6,47 @@ import os
 from logger import setup_custom_logger
 
 
+def write_dictionary_to_json_file(filename, dict_data):
+    """
+    Write a dictionary to a json file.
+    :param filename: file path to be written.
+    :param dict_data: data to be written.
+    :return:
+    """
+    with open(filename, 'w', encoding='utf8') as fp:
+        json.dump(dict_data, fp)
+    logging.info(f'{filename} has been written to file.')
+
+
+def load_json_file_to_dict(filename):
+    """
+    Read a json file into a dictionary data-structure.
+    :param filename: file path of the file to read.
+    :return: dictionary object containing the data
+    """
+    assert os.path.isfile(filename), f'{filename} is not a file.'
+    with open(filename, encoding='utf8') as fp:
+        data = json.load(fp)
+    logging.info(f'{filename} has been read in as data.')
+    return data
+
+
+def write_output(data, field_names, file_output_path):
+    """
+    Write data to csv file.
+
+    :param data: the data to write to file.
+    :param field_names: the column names.
+    :param file_output_path: the file to write to.
+    :return: None.
+    """
+    with open(file_output_path, 'w', encoding='utf8', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=field_names)
+        writer.writeheader()
+        writer.writerows(data)
+    logger.info(f'file written: {file_output_path}')
+
+
 def read_in_lines(input_file_path):
     """
     Read in the csv file, file_path.
@@ -39,11 +80,11 @@ def read_csv(input_file_path):
     return data
 
 
-def write_list_of_dictionaries_to_csv(file_output_path, data):
+def write_list_of_dictionaries_to_csv(file_path, data):
     """
     Write a list of dictionaries to a csv file.
 
-    :param file_output_path: the filepath to write to.
+    :param file_path: the filepath to write to.
     :param data: the dictionary data to write to file.
 
     Example:
@@ -59,24 +100,8 @@ def write_list_of_dictionaries_to_csv(file_output_path, data):
 
     :return: None
     """
-    with open(file_output_path, 'w', encoding='utf8') as csvfile:
+    with open(file_path, 'w', encoding='utf8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=data.keys())
         writer.writeheader()
         writer.writerows(data)
-    logger.info(f'file written: {file_output_path}')
-
-
-def write_output(data, field_names, file_output_path):
-    """
-    Write data to csv file.
-
-    :param data: the data to write to file.
-    :param field_names: the column names.
-    :param file_output_path: the file to write to.
-    :return: None.
-    """
-    with open(file_output_path, 'w', encoding='utf8', newline='') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=field_names)
-        writer.writeheader()
-        writer.writerows(data)
-    logger.info(f'file written: {file_output_path}')
+    logger.info(f'{file_path} written.')
